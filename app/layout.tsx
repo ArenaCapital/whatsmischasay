@@ -5,8 +5,8 @@ import type React from "react" // Import React
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Trading Signal SPA",
-  description: "A simple SPA for displaying trading signals",
+  title: "Mischas Trading Signal",
+  description: "Unopinionated Opinions",
 }
 
 export default function RootLayout({
