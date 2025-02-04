@@ -15,6 +15,7 @@ export default function TradingSignal() {
       setSignal(data.signal === "buy" ? "BUY" : "SELL")
     } catch (error) {
       console.error("Error fetching signal:", error)
+      setSignal(null)
     }
     setLoading(false)
   }
@@ -26,7 +27,7 @@ export default function TradingSignal() {
   }, [fetchSignal]) // Added fetchSignal to dependencies
 
   return (
-    <div className="relative w-full max-w-2xl">
+    <div className="relative w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
       <AnimatePresence>
         {loading ? (
           <motion.div
@@ -34,11 +35,11 @@ export default function TradingSignal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="text-white text-4xl font-bold text-center"
+            className="text-black text-4xl font-bold text-center"
           >
             Loading...
           </motion.div>
-        ) : (
+        ) : signal ? (
           <motion.div
             key={signal}
             initial={{ scale: 0, rotate: -180 }}
@@ -57,19 +58,10 @@ export default function TradingSignal() {
               {signal}
             </motion.div>
           </motion.div>
+        ) : (
+          <div className="text-black text-4xl font-bold text-center">Failed to fetch signal</div>
         )}
       </AnimatePresence>
-      <div className="absolute inset-0 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-full -z-10"></div>
-      <motion.div
-        className="absolute inset-0 rounded-full -z-20"
-        animate={{
-          background: [
-            "radial-gradient(circle, rgba(255,0,0,0.5) 0%, rgba(0,0,255,0.5) 100%)",
-            "radial-gradient(circle, rgba(0,0,255,0.5) 0%, rgba(255,0,0,0.5) 100%)",
-          ],
-        }}
-        transition={{ repeat: Number.POSITIVE_INFINITY, duration: 5, ease: "linear" }}
-      ></motion.div>
     </div>
   )
 }
