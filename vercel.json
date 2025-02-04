@@ -3,8 +3,13 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": { "useYarn": true }
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "YARN_ENABLE_IMMUTABLE_INSTALLS": "false"
+    }
+  }
 }
-
