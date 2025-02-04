@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function TradingSignal() {
   const [signal, setSignal] = useState<"BUY" | "SELL" | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const fetchSignal = async () => {
+  const fetchSignal = useCallback(async () => {
     setLoading(true)
     try {
       const response = await fetch("/api/trading-signal")
@@ -17,13 +17,13 @@ export default function TradingSignal() {
       console.error("Error fetching signal:", error)
     }
     setLoading(false)
-  }
+  }, [])
 
   useEffect(() => {
     fetchSignal()
     const interval = setInterval(fetchSignal, 60000) // Refresh every minute
     return () => clearInterval(interval)
-  }, [fetchSignal]) // Added fetchSignal to dependencies
+  }, [fetchSignal])
 
   return (
     <div className="relative w-full max-w-2xl">
@@ -58,7 +58,7 @@ export default function TradingSignal() {
             </motion.div>
           </motion.div>
         )}
-      </AnimaxtePresence>
+      </AnimatePresence>
       <div className="absolute inset-0 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-full -z-10"></div>
       <motion.div
         className="absolute inset-0 rounded-full -z-20"
@@ -73,3 +73,4 @@ export default function TradingSignal() {
     </div>
   )
 }
+
